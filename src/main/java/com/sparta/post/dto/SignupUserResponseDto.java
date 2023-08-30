@@ -1,15 +1,19 @@
 package com.sparta.post.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
-public class LoginUserResponseDto {
+public class SignupUserResponseDto {
     private Long id;
     private String msg;
     private Integer statusCode;
 
-    public LoginUserResponseDto(String msg, Integer statusCode) {
+    public SignupUserResponseDto(String msg, Integer statusCode) {
         this.msg = msg;
         this.statusCode = statusCode;
     }
+
 }
