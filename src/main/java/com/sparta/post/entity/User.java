@@ -27,8 +27,13 @@ public class User {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,15}$", message = "비밀번호는 대소문자 및 숫자로 구성된 8~15자의 문자열이어야 합니다.")
     private String password;
 
-    public User(String username, String password) {
+    @Column(name = "role", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+    public User(String username, String password,UserRoleEnum role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 }

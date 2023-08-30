@@ -5,6 +5,7 @@ import com.sparta.post.dto.LoginUserResponseDto;
 import com.sparta.post.dto.SignupUserRequestDto;
 import com.sparta.post.dto.SignupUserResponseDto;
 import com.sparta.post.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,8 @@ public class UserController {
 
     //로그인 구현
     @PutMapping("/auth/login")
-    public LoginUserResponseDto login(LoginUserRequestDto loginUserRequestDto){
-        return userService.login(loginUserRequestDto);
+    public LoginUserResponseDto login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse res){
+        return userService.login(loginUserRequestDto, res);
     }
 
 }

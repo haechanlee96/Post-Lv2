@@ -6,4 +6,6 @@ import lombok.Getter;
 public class SignupUserRequestDto {
     private String username;
     private String password;
+    private boolean admin = false;
+    private String adminToken = "";
 }
