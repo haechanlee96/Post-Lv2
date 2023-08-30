@@ -1,10 +1,8 @@
 package com.sparta.post.service;
 
 
-import com.sparta.post.dto.LoginUserRequestDto;
-import com.sparta.post.dto.LoginUserResponseDto;
-import com.sparta.post.dto.SignupUserRequestDto;
-import com.sparta.post.dto.SignupUserResponseDto;
+import com.sparta.post.dto.*;
+import com.sparta.post.entity.Post;
 import com.sparta.post.entity.User;
 import com.sparta.post.entity.UserRoleEnum;
 import com.sparta.post.jwt.JwtUtil;
@@ -14,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +28,7 @@ public class UserService {
     private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     //회원가입 기능
-    public SignupUserResponseDto signup(SignupUserRequestDto signupUserRequestDto) {
+    public StatusResponseDto signup(SignupUserRequestDto signupUserRequestDto) {
         String username = signupUserRequestDto.getUsername();
         String password = passwordEncoder.encode(signupUserRequestDto.getPassword());
 
@@ -51,14 +51,14 @@ public class UserService {
         User user = new User(username,password,role);
         userRepository.save(user);
 
-        SignupUserResponseDto signupUserResponseDto = new SignupUserResponseDto("회원가입 성공",200);
+        StatusResponseDto signupUserResponse = new StatusResponseDto("회원가입 성공",200);
 
-        return signupUserResponseDto;
+        return signupUserResponse;
     }
 
 
     //로그인 기능 -> security 분리 이전
-    public LoginUserResponseDto login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse res) {
+    public StatusResponseDto login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse res) {
         String username = loginUserRequestDto.getUsername();
         String password = loginUserRequestDto.getPassword();
 
@@ -76,9 +76,10 @@ public class UserService {
         String token = jwtUtil.createToken(user.getUsername(),user.getRole());
         jwtUtil.addJwtToCookie(token,res);
 
-        LoginUserResponseDto loginUserResponseDto = new LoginUserResponseDto("로그인 성공", 200);
-        return loginUserResponseDto;
+        StatusResponseDto loginUserResponse = new StatusResponseDto("로그인 성공", 200);
+        return loginUserResponse;
 
     }
+
 
 }
