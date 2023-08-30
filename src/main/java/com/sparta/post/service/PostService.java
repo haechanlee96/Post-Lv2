@@ -3,7 +3,9 @@ package com.sparta.post.service;
 import com.sparta.post.dto.RequestDto;
 import com.sparta.post.dto.ResponseDto;
 import com.sparta.post.entity.Post;
+import com.sparta.post.entity.User;
 import com.sparta.post.repository.PostRepository;
+import com.sparta.post.security.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
@@ -22,6 +25,7 @@ public class PostService {
     // 1. 게시글 작성
     // 제목,작성자명,비밀번호,작성 내용을 저장하고
     // 저장된 게시글을 client로 반환하기
+    @Transactional
     public ResponseDto createPost(RequestDto requestDto) {
         Post post = new Post(requestDto);
 
@@ -66,25 +70,23 @@ public class PostService {
     public Long updatePost(Long id, RequestDto requestDto) {
         Post post = findPost(id);
 
-        if(requestDto.getPassword() == post.getPassword()){
-            post.update(requestDto);
-        } else {
-            throw new IllegalArgumentException("비밀버호가 같지 않습니다");
-        }
+        isThisYourPostWrittenBy(post.getUser());
+
+        post.update(requestDto);
+        postRepository.save(post);
         return id;
     }
 
     // 5. 게시글 삭제
     // 삭제를 요청할 때 비밀번호를 같이 보내서 비밀번호 일치 확인 한 후
     // 선택한 게시글 삭제 client로 성공했다는 표시 반환하기 ->
-    public Long deletePost(Long id, RequestDto requestDto) {
+    @Transactional
+    public Long deletePost(Long id) {
         Post post = findPost(id);
 
-        if(requestDto.getPassword() == post.getPassword()){
-            postRepository.delete(post);
-        } else {
-            throw new IllegalArgumentException("비밀버호가 같지 않습니다");
-        }
+        isThisYourPostWrittenBy(post.getUser());
+
+        postRepository.delete(post);
         return id;
     }
 
@@ -93,5 +95,12 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
         );
+    }
+
+    // Post 주인 여부 확인
+    public void isThisYourPostWrittenBy(User userWhoWrotePost) {
+        SecurityUtils.getUserLoggedIn()
+                .filter(userWhoWannaAccess -> userWhoWannaAccess.equals(userWhoWrotePost))
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 수정할 수 없습니다."));
     }
 }

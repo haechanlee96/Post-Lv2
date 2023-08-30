@@ -11,7 +11,6 @@ public class ResponseDto {
     private String title;
     private String contents;
     private String username;
-    private int password;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -19,8 +18,7 @@ public class ResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.contents = post.getContents();
-        this.username = post.getUsername();
-//        this.password = post.getPassword();
+        this.username = post.getUser().getUsername();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }
