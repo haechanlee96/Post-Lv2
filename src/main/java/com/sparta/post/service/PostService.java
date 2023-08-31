@@ -1,5 +1,6 @@
 package com.sparta.post.service;
 
+import com.sparta.post.dto.MessageResponseDto;
 import com.sparta.post.dto.RequestDto;
 import com.sparta.post.dto.ResponseDto;
 import com.sparta.post.entity.Post;
@@ -67,27 +68,27 @@ public class PostService {
     // 수정을 요청할 때 수정할 데이터와 비번을 같이 보내서 서버에서 일치 여부 확인 -> 트랜젝션 활용
     // 제목,작성자명,작성 내용 수정 후, 수정된 게시글 반환
     @Transactional
-    public Long updatePost(Long id, RequestDto requestDto) {
+    public ResponseDto updatePost(Long id, RequestDto requestDto) {
         Post post = findPost(id);
 
         isThisYourPostWrittenBy(post.getUser());
 
         post.update(requestDto);
-        postRepository.save(post);
-        return id;
+        Post saved = postRepository.save(post);
+        return new ResponseDto(saved);
     }
 
     // 5. 게시글 삭제
     // 삭제를 요청할 때 비밀번호를 같이 보내서 비밀번호 일치 확인 한 후
     // 선택한 게시글 삭제 client로 성공했다는 표시 반환하기 ->
     @Transactional
-    public Long deletePost(Long id) {
+    public MessageResponseDto deletePost(Long id) {
         Post post = findPost(id);
 
         isThisYourPostWrittenBy(post.getUser());
 
         postRepository.delete(post);
-        return id;
+        return new MessageResponseDto("삭제 성공", 200);
     }
 
     // id 찾기

@@ -33,6 +33,11 @@ public class AuthService {
 
     @Transactional
     public void saveUser(AuthRequestDto requestDto) {
+        userRepository.findByUsername(requestDto.getUsername())
+                .ifPresent(user -> {
+                    throw new IllegalArgumentException("이미 존재하는 사용자 이름입니다.");
+                });
+
         User user = new User(requestDto, passwordEncoder);
         userRepository.save(user);
     }
