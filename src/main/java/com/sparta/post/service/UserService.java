@@ -58,31 +58,34 @@ public class UserService {
 
 
     //로그인 기능 -> security 분리 이전
-    public StatusResponseDto login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse res) {
-        String username = loginUserRequestDto.getUsername();
-        String password = loginUserRequestDto.getPassword();
 
-        //사용자 확인
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
-        );
+    //spring security -> 적용 시 , jwt필터에서 처리하기 때문에 필요없어짐
 
-        //비밀번호 확인
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
-
-        //JWT 생성 및 쿠키에 저장 후 res
-        String token = jwtUtil.createToken(user.getUsername(),user.getRole());
-//        jwtUtil.addJwtToCookie(token,res);// 주석 처리
-        res.addHeader("Authorization",token); // -> header에 반환
-
-
-        StatusResponseDto loginUserResponse = new StatusResponseDto("로그인 성공", 200);
-        System.out.println("로그인 성공 " + "statusCode:200");
-        return loginUserResponse;
-
-    }
+//    public StatusResponseDto login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse res) {
+//        String username = loginUserRequestDto.getUsername();
+//        String password = loginUserRequestDto.getPassword();
+//
+//        //사용자 확인
+//        User user = userRepository.findByUsername(username).orElseThrow(
+//                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+//        );
+//
+//        //비밀번호 확인
+//        if (!passwordEncoder.matches(password, user.getPassword())) {
+//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//        }
+//
+//        //JWT 생성 및 쿠키에 저장 후 res
+//        String token = jwtUtil.createToken(user.getUsername(),user.getRole());
+////        jwtUtil.addJwtToCookie(token,res);// 주석 처리
+//        res.addHeader("Authorization",token); // -> header에 반환
+//
+//
+//        StatusResponseDto loginUserResponse = new StatusResponseDto("로그인 성공", 200);
+//        System.out.println("로그인 성공 " + "statusCode:200");
+//        return loginUserResponse;
+//
+//    }
 
 
 }

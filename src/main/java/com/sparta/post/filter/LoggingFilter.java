@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Slf4j(topic = "LoggingFilter")
-@Component
+//@Component // spring security를 활용하지 않고 작성한 필터
 @Order(1)
 public class LoggingFilter implements Filter {
     @Override

@@ -24,9 +24,11 @@ public class UserController {
 
 
     //로그인 구현
-    @PostMapping("/auth/login")
-    public StatusResponseDto login(@RequestBody LoginUserRequestDto loginUserRequestDto, HttpServletResponse res){
-        return userService.login(loginUserRequestDto, res);
-    }
+    //spring security -> 적용 시 , jwt필터에서 처리하기 때문에 필요없어짐
+
+//    @PostMapping("/auth/login")
+//    public StatusResponseDto login(@RequestBody LoginUserRequestDto loginUserRequestDto, HttpServletResponse res){
+//        return userService.login(loginUserRequestDto, res);
+//    }
 
 }
