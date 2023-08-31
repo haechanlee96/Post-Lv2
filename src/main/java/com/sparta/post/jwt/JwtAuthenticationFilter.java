@@ -30,6 +30,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("로그인 시도");
         try {
+            // 요청 본문이 비어 있는지 확인
+            if (request.getContentLength() == 0) {
+                throw new RuntimeException("요청 본문이 비어 있습니다.");
+            }
+
             LoginUserRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginUserRequestDto.class);
 
             return getAuthenticationManager().authenticate(
@@ -40,8 +45,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     )
             );
         } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            log.error("예외 발생: ", e);
+            throw new RuntimeException("요청 처리 중 오류가 발생했습니다.");
         }
     }
 

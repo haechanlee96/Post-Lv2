@@ -8,7 +8,9 @@ import com.sparta.post.jwt.JwtUtil;
 import com.sparta.post.repository.PostRepository;
 import com.sparta.post.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,10 +120,16 @@ public class PostService {
     }
 
     public User getCurrentUser() {
-        String currentUsername = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(currentUsername).orElseThrow(
-                () -> new IllegalArgumentException("인증된 사용자를 찾을 수 없습니다.")
-        );
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String currentUsername = userDetails.getUsername();
+            return userRepository.findByUsername(currentUsername).orElseThrow(
+                    () -> new IllegalArgumentException("인증된 사용자를 찾을 수 없습니다.")
+            );
+        } else {
+            throw new IllegalStateException("올바른 인증 정보가 아닙니다.");
+        }
     }
 
     private void validateUserAuthority(Post post, User currentUser) {
