@@ -74,9 +74,12 @@ public class UserService {
 
         //JWT 생성 및 쿠키에 저장 후 res
         String token = jwtUtil.createToken(user.getUsername(),user.getRole());
-        jwtUtil.addJwtToCookie(token,res);
+//        jwtUtil.addJwtToCookie(token,res);// 주석 처리
+        res.addHeader("Authorization",token); // -> header에 반환
+
 
         StatusResponseDto loginUserResponse = new StatusResponseDto("로그인 성공", 200);
+        System.out.println("로그인 성공 " + "statusCode:200");
         return loginUserResponse;
 
     }

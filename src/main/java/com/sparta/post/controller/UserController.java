@@ -18,14 +18,14 @@ public class UserController {
 
     //회원가입 구현
     @PostMapping("/auth/signup")
-    public StatusResponseDto signup(SignupUserRequestDto signupUserRequestDto) {
+    public StatusResponseDto signup(@RequestBody SignupUserRequestDto signupUserRequestDto) {
         return userService.signup(signupUserRequestDto);
     }
 
 
     //로그인 구현
     @PostMapping("/auth/login")
-    public StatusResponseDto login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse res){
+    public StatusResponseDto login(@RequestBody LoginUserRequestDto loginUserRequestDto, HttpServletResponse res){
         return userService.login(loginUserRequestDto, res);
     }
 
