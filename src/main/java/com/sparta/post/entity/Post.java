@@ -28,6 +28,10 @@ public class Post extends Timestamped {
     @Column(name = "password", nullable = false)
     private int password;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Post(RequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
@@ -40,5 +44,10 @@ public class Post extends Timestamped {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.username = requestDto.getUsername();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getPosts().add(this);
     }
 }
