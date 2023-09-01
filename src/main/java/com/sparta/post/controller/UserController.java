@@ -4,6 +4,7 @@ import com.sparta.post.dto.*;
 import com.sparta.post.entity.User;
 import com.sparta.post.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class UserController {
 
     //회원가입 구현
     @PostMapping("/auth/signup")
-    public StatusResponseDto signup(@RequestBody SignupUserRequestDto signupUserRequestDto) {
+    public StatusResponseDto signup(@RequestBody @Valid SignupUserRequestDto signupUserRequestDto) {
         return userService.signup(signupUserRequestDto);
     }
 
