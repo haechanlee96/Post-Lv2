@@ -22,6 +22,18 @@ repositories {
 }
 
 dependencies {
+    // JWT
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Validation
+    implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
+    implementation 'org.glassfish:jakarta.el:3.0.3'
+
     implementation 'mysql:mysql-connector-java:8.0.28'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
