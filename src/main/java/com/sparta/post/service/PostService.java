@@ -2,6 +2,7 @@ package com.sparta.post.service;
 
 import com.sparta.post.dto.RequestDto;
 import com.sparta.post.dto.ResponseDto;
+import com.sparta.post.dto.StatusResponseDto;
 import com.sparta.post.entity.Post;
 import com.sparta.post.entity.User;
 import com.sparta.post.jwt.JwtUtil;
@@ -85,7 +86,7 @@ public class PostService {
 
     // 비밀번호 일치 -> 토큰 유효하면 수정 가능
     @Transactional
-    public Long updatePost(Long id, RequestDto requestDto) {
+    public ResponseDto updatePost(Long id, RequestDto requestDto) {
         User currentUser = getCurrentUser();
         Post post = findPost(id);
 
@@ -93,7 +94,7 @@ public class PostService {
 
         post.update(requestDto);
 
-        return id;
+        return new ResponseDto(post);
     }
 
     // 5. 게시글 삭제
@@ -101,7 +102,7 @@ public class PostService {
     // 선택한 게시글 삭제 client로 성공했다는 표시 반환하기 ->
 
     // 수정과 동일하게 비밀번호 -> 유효 토큰
-    public Long deletePost(Long id) {
+    public StatusResponseDto deletePost(Long id) {
         User currentUser = getCurrentUser();
         Post post = findPost(id);
 
@@ -109,7 +110,7 @@ public class PostService {
 
         postRepository.delete(post);
 
-        return id;
+        return new StatusResponseDto("삭제 성공", 200);
     }
 
     // id 찾기
