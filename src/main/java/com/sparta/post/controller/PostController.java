@@ -46,4 +46,6 @@ public class PostController {
     public Long deletePost(@PathVariable Long id, @RequestBody RequestDto requestDto) {
         return postService.deletePost(id, requestDto);
     }
+
+    //test -commit 2
 }
