@@ -30,9 +30,10 @@ dependencies {
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    // Validation
+
     implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
     implementation 'org.glassfish:jakarta.el:3.0.3'
+
 
     implementation 'mysql:mysql-connector-java:8.0.28'
 
