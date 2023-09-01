@@ -2,6 +2,7 @@ package com.sparta.post.controller;
 
 import com.sparta.post.dto.RequestDto;
 import com.sparta.post.dto.ResponseDto;
+import com.sparta.post.dto.StatusResponseDto;
 import com.sparta.post.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,13 +38,15 @@ public class PostController {
 
     // 4. 게시글 수정
     @PutMapping("/post/{id}")
-    public Long updatePost(@PathVariable Long id, @RequestBody RequestDto requestDto) {
+    public ResponseDto updatePost(@PathVariable Long id, @RequestBody RequestDto requestDto) {
         return postService.updatePost(id, requestDto);
     }
 
     // 5. 게시글 삭제
     @DeleteMapping("/post/{id}")
-    public Long deletePost(@PathVariable Long id, @RequestBody RequestDto requestDto) {
-        return postService.deletePost(id, requestDto);
+    public StatusResponseDto deletePost(@PathVariable Long id) {
+        return postService.deletePost(id);
     }
+
+    //test -commit 2
 }
