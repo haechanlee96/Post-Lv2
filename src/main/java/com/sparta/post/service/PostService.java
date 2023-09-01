@@ -101,7 +101,7 @@ public class PostService {
     // 선택한 게시글 삭제 client로 성공했다는 표시 반환하기 ->
 
     // 수정과 동일하게 비밀번호 -> 유효 토큰
-    public Long deletePost(Long id, RequestDto requestDto) {
+    public Long deletePost(Long id) {
         User currentUser = getCurrentUser();
         Post post = findPost(id);
 

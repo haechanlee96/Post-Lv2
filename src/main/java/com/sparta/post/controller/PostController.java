@@ -43,8 +43,8 @@ public class PostController {
 
     // 5. 게시글 삭제
     @DeleteMapping("/post/{id}")
-    public Long deletePost(@PathVariable Long id, @RequestBody RequestDto requestDto) {
-        return postService.deletePost(id, requestDto);
+    public Long deletePost(@PathVariable Long id) {
+        return postService.deletePost(id);
     }
 
     //test -commit 2
