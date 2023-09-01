@@ -26,7 +26,7 @@ public class Post extends Timestamped {
     private String username;
 
     @Column(name = "password", nullable = false)
-    private int password;
+    private String  password;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

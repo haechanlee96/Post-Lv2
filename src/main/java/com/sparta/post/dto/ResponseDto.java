@@ -11,7 +11,7 @@ public class ResponseDto {
     private String title;
     private String contents;
     private String username;
-    private int password;
+    private String password;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
